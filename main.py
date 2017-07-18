@@ -3,6 +3,11 @@
 import RPi.GPIO as GPIO
 import time
 
+pinmode = GPIO.BCM # GPIO.BOARD
+inpinnr = 27 # BCM
+outpinnr = 17 # BCM
+bouncems = 200
+
 done = False
 
 def on_press(pinnr):
@@ -12,37 +17,36 @@ def on_press(pinnr):
     GPIO.remove_event_detect(pinnr)
 
 #GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM) # GPIO.BOARD
-
-GPIO.setup(17, GPIO.OUT)
+GPIO.setmode(pinmode)
+GPIO.setup(outpinnr, GPIO.OUT)
 GPIO.setup(
-    27, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+    inpinnr, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 GPIO.add_event_detect(
-    27,
+    inpinnr,
     GPIO.FALLING,
     callback=on_press,
-    bouncetime=200)
+    bouncetime=bouncems)
 
-#while GPIO.input(27)==0:
+#while GPIO.input(inpinnr)==0:
 while not done:
     print('Enabling LED..')
-    GPIO.output(17, GPIO.HIGH)
+    GPIO.output(outpinnr, GPIO.HIGH)
 
     print('Waiting one second..')
     time.sleep(1)
 
     print('Disabling LED..')
-    GPIO.output(17, GPIO.LOW)
+    GPIO.output(outpinnr, GPIO.LOW)
 
     print('Waiting one second..')
     time.sleep(1)
 
 #print('Waiting for button release..')
-#GPIO.wait_for_edge(27, GPIO.RISING)
+#GPIO.wait_for_edge(inpinnr, GPIO.RISING)
 
 #print('Waiting for button press..')
-#GPIO.wait_for_edge(27, GPIO.FALLING)
+#GPIO.wait_for_edge(inpinnr, GPIO.FALLING)
 #time.sleep(0.2)
 
 print('Cleaning up..')
