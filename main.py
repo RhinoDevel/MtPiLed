@@ -8,6 +8,9 @@ state_wait = 0
 state_init = 1
 state_done = 2
 
+init_state_seconds = 3
+done_flash_seconds = 1
+
 pinmode = GPIO.BCM # GPIO.BOARD
 inpinnr = 27 # BCM
 outpinnr = 17 # BCM
@@ -46,6 +49,8 @@ def led_on_off(onseconds, offseconds):
     time.sleep(offseconds)
 
 state_copy = -1
+i = 0
+j = 0
 
 GPIO.setwarnings(False)
 GPIO.setmode(pinmode)
@@ -73,12 +78,22 @@ while True:
             if state == state_wait:
                 continue
             init_seconds = init_seconds + 1
-            if init_seconds == 5:
+            if init_seconds == init_state_seconds:
                 state = state_done
         continue
 
     if state_copy == state_done:
         break
+
+# Do some fancy point-of-no-return flashing:
+#
+i = 0
+while i < done_flash_seconds:
+    j = 0
+    while j < 10:
+        led_on_off(0.05, 0.05)
+        j = j + 1
+    i = i + 1
 
 #print('Cleaning up..')
 GPIO.cleanup()
