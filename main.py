@@ -16,6 +16,20 @@ def on_press(pinnr):
     done = True
     GPIO.remove_event_detect(pinnr)
 
+def led_on_off(onseconds, offseconds):
+    print('Enabling LED..')
+    GPIO.output(outpinnr, GPIO.HIGH)
+
+    print('Waiting '+str(onseconds)+' second(-s)..')
+    time.sleep(onseconds)
+
+    print('Disabling LED..')
+    GPIO.output(outpinnr, GPIO.LOW)
+
+    print('Waiting '+str(offseconds)+' second(-s)..')
+    time.sleep(offseconds)
+
+
 #GPIO.setwarnings(False)
 GPIO.setmode(pinmode)
 GPIO.setup(outpinnr, GPIO.OUT)
@@ -30,17 +44,7 @@ GPIO.add_event_detect(
 
 #while GPIO.input(inpinnr)==0:
 while not done:
-    print('Enabling LED..')
-    GPIO.output(outpinnr, GPIO.HIGH)
-
-    print('Waiting one second..')
-    time.sleep(1)
-
-    print('Disabling LED..')
-    GPIO.output(outpinnr, GPIO.LOW)
-
-    print('Waiting one second..')
-    time.sleep(1)
+    led_on_off(1, 1)
 
 #print('Waiting for button release..')
 #GPIO.wait_for_edge(inpinnr, GPIO.RISING)
