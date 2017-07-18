@@ -44,7 +44,7 @@ GPIO.add_event_detect(
 
 #while GPIO.input(inpinnr)==0:
 while not done:
-    led_on_off(1, 1)
+    led_on_off(0.6, 0.4)
 
 #print('Waiting for button release..')
 #GPIO.wait_for_edge(inpinnr, GPIO.RISING)
