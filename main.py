@@ -1,6 +1,7 @@
 # RhinoDevel, Marcel Timm, 2017.07.17
 
 import RPi.GPIO as GPIO
+import os
 import time
 import threading
 
@@ -99,3 +100,12 @@ while i < done_flash_seconds:
 GPIO.cleanup()
 
 #print('Done.')
+
+# Raspbian shutdown:
+#
+# Add this to the end of /etc/rc.local,
+# right BEFORE the "exit 0" line:
+#
+# sudo python <FULL PATH TO THIS SCRIPT> &
+#
+os.system('halt -p')
